@@ -1,0 +1,16 @@
+table {
+    margin: auto;
+    border-spacing: 3px;
+}
+
+td {
+    width: 30px;
+    height: 30px;
+    border: 1px solid white;
+    background-color: #a04dff;
+    cursor: pointer;
+}
+
+td:hover {
+    background-color: #b77ef7;
+}

@@ -6,6 +6,7 @@ table {
 td {
     width: 30px;
     height: 30px;
+    text-align: center;
     border: 1px solid white;
     background-color: #a04dff;
     cursor: pointer;

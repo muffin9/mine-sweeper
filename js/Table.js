@@ -1,16 +1,74 @@
 import { $ } from "./util.js";
+import errorCheck from "./errorCheck.js";
 
 class Table {
-  constructor({ row, column, mine, flag, data }) {
+  data = [];
+  dataMine = [];
+  constructor({ row, column, mine, flag }) {
     const $table = $("#table");
     this.row = row;
     this.column = column;
     this.mine = mine;
     this.flag = flag;
-    this.data = data;
 
-    this.dataMine = [];
     this.$table = $table;
+
+    this.onLeftClick = (e, i, j) => {
+      let surround = [this.data[i][j - 1], this.data[i][j + 1]];
+      if (this.data[i][j] === "X") {
+        alert("실패ㅠㅠ");
+      }
+      if (this.data[i - 1]) {
+        surround = surround.concat(
+          this.data[i - 1][j - 1],
+          this.data[i - 1][j],
+          this.data[i - 1][j + 1]
+        );
+      }
+      if (this.data[i + 1]) {
+        surround = surround.concat(
+          this.data[i + 1][j - 1],
+          this.data[i + 1][j],
+          this.data[i + 1][j + 1]
+        );
+      }
+      const surroundMine = surround.filter(element => {
+        return element === "X";
+      }).length;
+
+      this.$table.children[i].children[j].innerHTML = surroundMine || "";
+
+      if (surroundMine === 0) {
+      }
+    };
+
+    this.onRightClick = (e, i, j) => {
+      const text = this.$table.children[i].children[j].innerHTML;
+
+      if (text === "" && this.flag === 0) {
+        alert("깃발을 전부 사용하셨습니다.");
+        return;
+      }
+
+      if (text === "") {
+        this.$table.children[i].children[j].innerHTML = 1;
+        this.data[i][j] = 1;
+        this.flag -= 1;
+      } else if (text === "1") {
+        if (this.data[i][j] === 1) {
+          this.$table.children[i].children[j].innerHTML = "";
+          this.data[i][j] = 0;
+          this.flag += 1;
+        } else if (this.data[i][j] === "X") {
+          this.$table.children[i].children[j].innerHTML = "X";
+          this.data[i][j] = "X";
+          this.flag += 1;
+        }
+      } else if (text === "X") {
+        this.$table.children[i].children[j].innerHTML = "1";
+        this.flag -= 1;
+      }
+    };
   }
 
   setState(data) {
@@ -25,15 +83,17 @@ class Table {
   createTable() {
     this.$table.innerHTML = "";
     this.data = [];
-    console.log(this.column, this.row);
-    for (let i = 0; i < this.column; i++) {
+    this.dataMine = [];
+    for (let i = 0; i < this.row; i++) {
       const $tr = document.createElement("tr");
       const array = [];
       this.$table.appendChild($tr);
-      for (let j = 0; j < this.row; j++) {
+      for (let j = 0; j < this.column; j++) {
         const $td = document.createElement("td");
         $tr.appendChild($td);
         array.push(0);
+        $td.addEventListener("click", e => this.onLeftClick(e, i, j));
+        $td.addEventListener("contextmenu", e => this.onRightClick(e, i, j));
       }
       this.data.push(array);
     }
@@ -52,13 +112,12 @@ class Table {
     }
 
     for (let i = 0; i < this.dataMine.length; i++) {
-      const minecolumn = Math.floor(this.dataMine[i] / this.column);
-      const minerow = this.dataMine[i] % this.column;
-      this.data[minecolumn][minerow] = "X";
-    }
+      const minerow = Math.floor(this.dataMine[i] / this.column);
+      const minecolumn = this.dataMine[i] % this.column;
 
-    console.log(this.dataMine);
-    console.log(this.data);
+      this.data[minerow][minecolumn] = "X";
+      this.$table.children[minerow].children[minecolumn].innerHTML = "X";
+    }
   }
 
   render() {

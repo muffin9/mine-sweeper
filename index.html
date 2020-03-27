@@ -2,45 +2,65 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <title>Minesweeper</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <title>Minesweeper</title>
 </head>
 
 <body>
-    <div id="App">
-        <div class="new-btn"><img class="new-img" src="./image/new.png" alt="새 게임 버튼"><span>New Game</span></div>
-        <div class="content-wrapper">
-            <div class="content-left">
-                <div id="easy"><img src="./image/easy.png" alt="쉬운 난이도" /><span>Easy</span></div>
-                <div id="medium"><img src="./image/medium.png" alt="중간 난이도" /><span>Medium</span></div>
-                <div id="hard"><img src="./image/hard.png" alt="하드 난이도" /><span>Hard</span></div>
-            </div>
-            <div class="content-center">
-                <table id="table"></table>
-            </div>
-            <div class="content-right">
-                <div><img src="./image/mine.png" alt="지뢰 개수" /><span>10</span></div>
-                <div><img src="./image/flag.png" alt="깃발 개수" /><span>10</span></div>
-                <div><img src="./image/watch.png" alt="초과 시간" /><span>0:00</span></div>
-                <div><img src="./image/Rank.jpg" alt="랭킹" /><span>RANK</span></div>
-            </div>
-        </div>
+  <div id="App">
+    <div class="new-btn">
+      <img class="new-img" src="./image/new.png" alt="새 게임 버튼" /><span>New Game</span>
     </div>
-    <div class="modal-wrapper">
-        <div class="modal">
-            <button class="close-btn">X</button>
-            <header>지뢰가 없는 모든 칸을 찾아내 주세요.</header>
-            <p>마우스 왼쪽 버튼 클릭 : 한 칸 열기 <br /> 오른쪽 버튼 1번 클릭 : 지뢰 위치 확정(깃발 꽂기) <br /> 오른쪽 버튼 2번 클릭 : 임시 표시(물음표) <br />
-                왼쪽+오른쪽 버튼 클릭 : 그 칸에서 인접한 8칸을 전부 열기</p>
-            <div class="modal-btn-wrapper">
-                <button class="ok-btn">확인</button>
-                <button class="cancel-btn">취소</button>
-            </div>
+    <div class="content-wrapper">
+      <div class="content-left">
+        <div id="easy">
+          <img src="./image/easy.png" alt="쉬운 난이도" /><span>Easy</span>
         </div>
+        <div id="medium">
+          <img src="./image/medium.png" alt="중간 난이도" /><span>Medium</span>
+        </div>
+        <div id="hard">
+          <img src="./image/hard.png" alt="하드 난이도" /><span>Hard</span>
+        </div>
+      </div>
+      <div class="content-center">
+        <table id="table"></table>
+      </div>
+      <div class="content-right">
+        <div>
+          <img src="./image/mine.png" alt="지뢰 개수" /><span id="mine-count">10</span>
+        </div>
+        <div>
+          <img src="./image/flag.png" alt="깃발 개수" /><span id="flag-count">10</span>
+        </div>
+        <div>
+          <img src="./image/watch.png" alt="초과 시간" /><span id="time-count">0</span>
+        </div>
+        <div id="rank-count">
+          <img src="./image/Rank.jpg" alt="랭킹" /><span>RANK</span>
+        </div>
+      </div>
     </div>
-    <script type="module" src="js/main.js"></script>
+  </div>
+  <div class="modal-wrapper">
+    <div class="modal">
+      <button class="close-btn">X</button>
+      <header>지뢰가 없는 모든 칸을 찾아내 주세요.</header>
+      <p>
+        마우스 왼쪽 버튼 클릭 : 한 칸 열기 <br />
+        오른쪽 버튼 1번 클릭 : 지뢰 위치 확정(깃발 꽂기) <br />
+        오른쪽 버튼 2번 클릭 : 임시 표시(물음표) <br />
+        왼쪽+오른쪽 버튼 클릭 : 그 칸에서 인접한 8칸을 전부 열기
+      </p>
+      <div class="modal-btn-wrapper">
+        <button class="ok-btn">확인</button>
+        <button class="cancel-btn">취소</button>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="js/main.js"></script>
 </body>
 
 </html>

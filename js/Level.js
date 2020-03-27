@@ -17,7 +17,7 @@ class Level {
     });
 
     $hardBtn.addEventListener("click", () => {
-      this.onClick(30, 16, 99, 99);
+      this.onClick(16, 30, 99, 99);
     });
   }
 }

@@ -5,12 +5,18 @@ import Count from "./Count.js";
 
 class App {
   constructor() {
+    this.myTimer = () => {
+      setInterval(() => this.count.timerender(), 1000);
+    };
+
     this.modal = new Modal();
     this.table = new Table({
       row: 9,
       column: 9,
       mine: 10,
-      flag: 10
+      flag: 10,
+      life: false,
+      myTimer: this.myTimer
     });
 
     this.level = new Level({
@@ -21,7 +27,11 @@ class App {
       }
     });
 
-    this.count = new Count({ mine: 10, flag: 10 });
+    this.count = new Count({
+      mine: 10,
+      flag: 10,
+      myTimer: this.myTimer
+    });
 
     this.init();
   }

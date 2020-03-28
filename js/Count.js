@@ -1,9 +1,8 @@
 import { $ } from "./util.js";
 
 class Count {
-  myTimer;
   time = 0;
-  constructor({ mine, flag }) {
+  constructor({ mine, flag, myTimer }) {
     const $minecount = $("#mine-count");
     const $flagcount = $("#flag-count");
     const $timecount = $("#time-count");
@@ -16,7 +15,8 @@ class Count {
     this.$flagcount = $flagcount;
     this.$timecount = $timecount;
 
-    this.myTimer = setInterval(() => this.timerender(), 1000);
+    this.myTimer = myTimer;
+    this.myTimer();
   }
 
   setState(mine, flag) {

@@ -15,3 +15,7 @@ td {
 td:hover {
     background-color: #b77ef7;
 }
+
+.opened {
+    background-color: white;
+}

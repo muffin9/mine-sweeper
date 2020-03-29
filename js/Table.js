@@ -3,13 +3,22 @@ import { $, codeTable } from "./util.js";
 class Table {
   data = [];
   dataMine = [];
-  nickname;
-
-  constructor({ row, column, mine, flag, life, timeCheck, onNewClick }) {
+  life = false;
+  clear = false;
+  open = 0;
+  constructor({
+    row,
+    column,
+    mine,
+    flag,
+    time,
+    timeCheck,
+    nickname,
+    onNewClick,
+    onRankEnrollment
+  }) {
     const $table = $("#table");
     const $newBtn = $(".new-btn");
-    let open = 0;
-    let clear = false;
 
     this.row = row;
     this.column = column;
@@ -19,22 +28,27 @@ class Table {
     this.$table = $table;
 
     this.onNewClick = onNewClick;
+    this.onRankEnrollment = onRankEnrollment;
+    this.time = time;
     this.timeCheck = timeCheck;
-
-    this.life = life;
-    this.open = open;
-    this.clear = clear;
+    this.nickname = nickname;
 
     $newBtn.addEventListener("click", () => {
       this.onNewClick(this.row, this.column, this.mine, this.flag);
     });
 
     this.onLeftClick = (e, i, j) => {
-      if (this.life) return;
-      else if (this.clear) return;
+      if (this.life || this.clear) return;
       else if (this.data[i][j] === codeTable.open) return;
       e.target.classList.add("opened");
       this.open += 1;
+
+      if (this.open === this.row * this.column - this.mine) {
+        clearInterval(this.timeCheck);
+        this.clear = true;
+        this.nickname = prompt("이름을 입력하세요.");
+        this.onRankEnrollment(this.nickname);
+      }
 
       if (this.data[i][j] === codeTable.mine) {
         clearInterval(this.timeCheck);
@@ -103,16 +117,12 @@ class Table {
               parentTable.children,
               parentTr
             );
-            if (this.data[nextCanneLine][nextCanneCanne] !== codeTable.open)
+
+            if (this.data[nextCanneLine][nextCanneCanne] !== codeTable.open) {
               nextCanne.click();
+            }
           });
         }
-      }
-      if (this.open === this.row * this.column - this.mine) {
-        this.clear = true;
-        clearInterval(this.timeCheck);
-        prompt("이름을 입력하세요.");
-        return;
       }
     };
 
@@ -156,6 +166,7 @@ class Table {
     this.timeCheck = time;
     this.open = 0;
     this.clear = false;
+    this.nickname = "";
     this.render();
   }
 

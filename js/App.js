@@ -6,13 +6,17 @@ import Count from "./Count.js";
 class App {
   timeCheck;
   myTimer;
+  nickname;
+  time = 0;
+  ranks = [];
   constructor() {
     (this.myTimer = () => {
       clearInterval(this.timeCheck);
-      return (this.timeCheck = setInterval(
-        () => this.count.timerender(),
-        1000
-      ));
+      this.time = 0;
+      return (this.timeCheck = setInterval(() => {
+        this.time += 1;
+        this.count.timerender(this.time);
+      }, 1000));
     })();
 
     this.modal = new Modal();
@@ -21,13 +25,19 @@ class App {
       column: 9,
       mine: 10,
       flag: 10,
-      life: false,
+      time: this.time,
       timeCheck: this.timeCheck,
+      nickname: this.nickname,
       onNewClick: (row, column, mine, flag) => {
         const time = this.myTimer();
         const data = { row, column, mine, flag, time };
         this.table.setState(data);
         this.count.setState(mine, flag);
+      },
+      onRankEnrollment: nickname => {
+        const user = { nickname, time: this.time };
+        this.ranks = this.ranks.concat(user);
+        console.log(this.ranks);
       }
     });
 
@@ -42,8 +52,7 @@ class App {
 
     this.count = new Count({
       mine: 10,
-      flag: 10,
-      myTimer: this.myTimer
+      flag: 10
     });
 
     this.init();

@@ -1,8 +1,7 @@
 import { $ } from "./util.js";
 
 class Count {
-  time = 0;
-  constructor({ mine, flag, myTimer }) {
+  constructor({ mine, flag }) {
     const $minecount = $("#mine-count");
     const $flagcount = $("#flag-count");
     const $timecount = $("#time-count");
@@ -15,17 +14,12 @@ class Count {
     this.$flagcount = $flagcount;
     this.$timecount = $timecount;
 
-    this.myTimer = myTimer;
-
-    $rankcount.addEventListener("click", () => {
-      clearInterval(this.myTimer);
-    });
+    $rankcount.addEventListener("click", () => {});
   }
 
   setState(mine, flag) {
     this.mine = mine;
     this.flag = flag;
-    this.time = 0;
     this.render();
   }
 
@@ -34,9 +28,8 @@ class Count {
     this.$flagcount.textContent = this.flag;
   }
 
-  timerender() {
-    this.time += 1;
-    this.$timecount.textContent = this.time;
+  timerender(time) {
+    this.$timecount.textContent = time;
   }
 }
 

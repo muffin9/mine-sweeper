@@ -16,7 +16,10 @@ class Count {
     this.$timecount = $timecount;
 
     this.myTimer = myTimer;
-    this.myTimer();
+
+    $rankcount.addEventListener("click", () => {
+      clearInterval(this.myTimer);
+    });
   }
 
   setState(mine, flag) {

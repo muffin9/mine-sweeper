@@ -4,10 +4,16 @@ import Level from "./Level.js";
 import Count from "./Count.js";
 
 class App {
+  timeCheck;
+  myTimer;
   constructor() {
-    this.myTimer = () => {
-      setInterval(() => this.count.timerender(), 1000);
-    };
+    (this.myTimer = () => {
+      clearInterval(this.timeCheck);
+      return (this.timeCheck = setInterval(
+        () => this.count.timerender(),
+        1000
+      ));
+    })();
 
     this.modal = new Modal();
     this.table = new Table({
@@ -16,12 +22,19 @@ class App {
       mine: 10,
       flag: 10,
       life: false,
-      myTimer: this.myTimer
+      timeCheck: this.timeCheck,
+      onNewClick: (row, column, mine, flag) => {
+        const time = this.myTimer();
+        const data = { row, column, mine, flag, time };
+        this.table.setState(data);
+        this.count.setState(mine, flag);
+      }
     });
 
     this.level = new Level({
       onClick: (row, column, mine, flag) => {
-        const data = { row, column, mine, flag };
+        const time = this.myTimer();
+        const data = { row, column, mine, flag, time };
         this.table.setState(data);
         this.count.setState(mine, flag);
       }
@@ -38,7 +51,6 @@ class App {
 
   init() {
     this.table.render();
-    this.count.render();
   }
 }
 

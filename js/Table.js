@@ -3,8 +3,14 @@ import { $, codeTable } from "./util.js";
 class Table {
   data = [];
   dataMine = [];
-  constructor({ row, column, mine, flag, life, myTimer }) {
+  nickname;
+
+  constructor({ row, column, mine, flag, life, timeCheck, onNewClick }) {
     const $table = $("#table");
+    const $newBtn = $(".new-btn");
+    let open = 0;
+    let clear = false;
+
     this.row = row;
     this.column = column;
     this.mine = mine;
@@ -12,79 +18,101 @@ class Table {
 
     this.$table = $table;
 
+    this.onNewClick = onNewClick;
+    this.timeCheck = timeCheck;
+
     this.life = life;
+    this.open = open;
+    this.clear = clear;
+
+    $newBtn.addEventListener("click", () => {
+      this.onNewClick(this.row, this.column, this.mine, this.flag);
+    });
 
     this.onLeftClick = (e, i, j) => {
       if (this.life) return;
+      else if (this.clear) return;
+      else if (this.data[i][j] === codeTable.open) return;
       e.target.classList.add("opened");
-      let surround = [this.data[i][j - 1], this.data[i][j + 1]];
+      this.open += 1;
+
       if (this.data[i][j] === codeTable.mine) {
+        clearInterval(this.timeCheck);
         e.target.textContent = "펑";
         this.life = true;
         return;
-      }
-      if (this.data[i - 1]) {
-        surround = surround.concat(
-          this.data[i - 1][j - 1],
-          this.data[i - 1][j],
-          this.data[i - 1][j + 1]
-        );
-      }
-      if (this.data[i + 1]) {
-        surround = surround.concat(
-          this.data[i + 1][j - 1],
-          this.data[i + 1][j],
-          this.data[i + 1][j + 1]
-        );
-      }
-      const surroundMine = surround.filter(element => {
-        return element === codeTable.mine;
-      }).length;
-
-      this.$table.children[i].children[j].innerHTML = surroundMine || "";
-
-      if (surroundMine === 0) {
-        // 해당 클릭한 칸 주변에 지뢰가 없을 시  클릭한 칸에 2(open)를 대입
+      } else {
         this.data[i][j] = codeTable.open;
-        let surroundCanne = [];
-        if (this.$table.children[i - 1]) {
-          surroundCanne = surroundCanne.concat(
-            this.$table.children[i - 1].children[j - 1],
-            this.$table.children[i - 1].children[j],
-            this.$table.children[i - 1].children[j + 1]
+        let surround = [this.data[i][j - 1], this.data[i][j + 1]];
+        if (this.data[i - 1]) {
+          surround = surround.concat(
+            this.data[i - 1][j - 1],
+            this.data[i - 1][j],
+            this.data[i - 1][j + 1]
           );
         }
-        surroundCanne = surroundCanne.concat(
-          this.$table.children[i].children[j - 1],
-          this.$table.children[i].children[j + 1]
-        );
-        if (this.$table.children[i + 1]) {
-          surroundCanne = surroundCanne.concat(
-            this.$table.children[i + 1].children[j - 1],
-            this.$table.children[i + 1].children[j],
-            this.$table.children[i + 1].children[j + 1]
+        if (this.data[i + 1]) {
+          surround = surround.concat(
+            this.data[i + 1][j - 1],
+            this.data[i + 1][j],
+            this.data[i + 1][j + 1]
           );
         }
+        const surroundMine = surround.filter(element => {
+          return element === codeTable.mine;
+        }).length;
 
-        surroundCanne = surroundCanne.filter(v => {
-          return !!v;
-        });
+        this.$table.children[i].children[j].innerHTML = surroundMine || "";
 
-        surroundCanne.forEach(nextCanne => {
-          const parentTr = nextCanne.parentNode;
-          const parentTable = nextCanne.parentNode.parentNode;
-
-          const nextCanneCanne = Array.prototype.indexOf.call(
-            parentTr.children,
-            nextCanne
+        if (surroundMine === 0) {
+          // 해당 클릭한 칸 주변에 지뢰가 없을 시  클릭한 칸에 2(open)를 대입
+          this.data[i][j] = codeTable.open;
+          let surroundCanne = [];
+          if (this.$table.children[i - 1]) {
+            surroundCanne = surroundCanne.concat(
+              this.$table.children[i - 1].children[j - 1],
+              this.$table.children[i - 1].children[j],
+              this.$table.children[i - 1].children[j + 1]
+            );
+          }
+          surroundCanne = surroundCanne.concat(
+            this.$table.children[i].children[j - 1],
+            this.$table.children[i].children[j + 1]
           );
-          const nextCanneLine = Array.prototype.indexOf.call(
-            parentTable.children,
-            parentTr
-          );
-          if (this.data[nextCanneLine][nextCanneCanne] !== codeTable.open)
-            nextCanne.click();
-        });
+          if (this.$table.children[i + 1]) {
+            surroundCanne = surroundCanne.concat(
+              this.$table.children[i + 1].children[j - 1],
+              this.$table.children[i + 1].children[j],
+              this.$table.children[i + 1].children[j + 1]
+            );
+          }
+
+          surroundCanne = surroundCanne.filter(v => {
+            return !!v;
+          });
+
+          surroundCanne.forEach(nextCanne => {
+            const parentTr = nextCanne.parentNode;
+            const parentTable = nextCanne.parentNode.parentNode;
+
+            const nextCanneCanne = Array.prototype.indexOf.call(
+              parentTr.children,
+              nextCanne
+            );
+            const nextCanneLine = Array.prototype.indexOf.call(
+              parentTable.children,
+              parentTr
+            );
+            if (this.data[nextCanneLine][nextCanneCanne] !== codeTable.open)
+              nextCanne.click();
+          });
+        }
+      }
+      if (this.open === this.row * this.column - this.mine) {
+        this.clear = true;
+        clearInterval(this.timeCheck);
+        prompt("이름을 입력하세요.");
+        return;
       }
     };
 
@@ -119,12 +147,15 @@ class Table {
   }
 
   setState(data) {
-    const { row, column, mine, flag } = data;
+    const { row, column, mine, flag, time } = data;
     this.row = row;
     this.column = column;
     this.mine = mine;
     this.flag = flag;
     this.life = false;
+    this.timeCheck = time;
+    this.open = 0;
+    this.clear = false;
     this.render();
   }
 

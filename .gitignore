@@ -65,4 +65,4 @@ node_modules/
 .env
 
 # node test
-.node/
+node/

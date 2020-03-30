@@ -60,6 +60,37 @@
             </div>
         </div>
     </div>
+
+    <div class="rankmodal-wrapper">
+        <div class="rank-modal">
+            <button class="close-rankbtn">X</button>
+            <header><img src="./image/trophy.jpg" alt="랭킹 제목 이미지" /></header>
+            <div>
+                <img src="./image/easy.png" alt="쉬운 난이도" />
+                <div>
+                    <p>KSJKSJKSJK 10초</p>
+                    <p>KSJ 15초</p>
+                    <p>KSJ 20초</p>
+                </div>
+            </div>
+            <div>
+                <img src="./image/medium.png" alt="중간 난이도" />
+                <div>
+                    <p>HSHHSHHSHH 10초</p>
+                    <p>HSH 15초</p>
+                    <p>HSH 20초</p>
+                </div>
+            </div>
+            <div>
+                <img src="./image/hard.png" alt="하드 난이도" />
+                <div>
+                    <p>김김김김김김김김김김 10초</p>
+                    <p>KYJ 15초</p>
+                    <p>KYJ 20초</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
@@ -83,27 +114,27 @@
         firebase.initializeApp(firebaseConfig);
 
         //구글 인증 기능 추가
-        var provider = new firebase.auth.GoogleAuthProvider();
+        // var provider = new firebase.auth.GoogleAuthProvider();
 
-        // 인증하기
-        firebase.auth().signInWithPopup(provider).then(function (result) {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = result.credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
+        // // 인증하기
+        // firebase.auth().signInWithPopup(provider).then(function (result) {
+        //     // This gives you a Google Access Token. You can use it to access the Google API.
+        //     var token = result.credential.accessToken;
+        //     // The signed-in user info.
+        //     var user = result.user;
 
-            console.log(user) // 인증 후 어떤 데이터를 받아오는지 확인해보기 위함.
-            // ...
-        }).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
-        });
+        //     console.log(user) // 인증 후 어떤 데이터를 받아오는지 확인해보기 위함.
+        //     // ...
+        // }).catch(function (error) {
+        //     // Handle Errors here.
+        //     var errorCode = error.code;
+        //     var errorMessage = error.message;
+        //     // The email of the user's account used.
+        //     var email = error.email;
+        //     // The firebase.auth.AuthCredential type that was used.
+        //     var credential = error.credential;
+        //     // ...
+        // });
 
         var database = firebase.database();
         // database.ref('user/').push({

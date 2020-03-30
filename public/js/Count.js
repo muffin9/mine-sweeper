@@ -1,11 +1,14 @@
 import { $ } from "./util.js";
 
 class Count {
-  constructor({ mine, flag }) {
+  constructor({ mine, flag, onLoadData }) {
     const $minecount = $("#mine-count");
     const $flagcount = $("#flag-count");
     const $timecount = $("#time-count");
     const $rankcount = $("#rank-count");
+
+    const $rankmodal = $(".rankmodal-wrapper");
+    const $rankcancelBtn = $(".close-rankbtn");
 
     this.mine = mine;
     this.flag = flag;
@@ -14,7 +17,16 @@ class Count {
     this.$flagcount = $flagcount;
     this.$timecount = $timecount;
 
-    $rankcount.addEventListener("click", () => {});
+    this.onLoadData = onLoadData;
+
+    $rankcount.addEventListener("click", () => {
+      $rankmodal.style.display = "block";
+      this.onLoadData();
+    });
+
+    $rankcancelBtn.addEventListener("click", () => {
+      $rankmodal.style.display = "none";
+    });
   }
 
   setState(mine, flag) {

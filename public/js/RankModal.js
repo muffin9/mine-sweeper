@@ -1,9 +1,6 @@
 import { $ } from "./util.js";
 class RankModal {
-  constructor() {
-    const $rankmodal = $(".modal-wrpaper");
-    console.log($rankmodal);
-  }
+  constructor() {}
 }
 
 export default RankModal;

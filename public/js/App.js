@@ -3,6 +3,8 @@ import RankModal from "./RankModal.js";
 import Table from "./Table.js";
 import Level from "./Level.js";
 import Count from "./Count.js";
+import Loading from "./Loading.js";
+import errorCheck from "./errorCheck.js";
 
 class App {
   timeCheck;
@@ -10,6 +12,7 @@ class App {
   nickname;
   time = 0;
   ranks = [];
+  difficulty = 0; // 0 :easy  , 1 : mid , 2 : hard
   constructor() {
     (this.myTimer = () => {
       clearInterval(this.timeCheck);
@@ -39,9 +42,10 @@ class App {
       onRankEnrollment: nickname => {
         const user = { nickname, time: this.time };
         this.ranks = this.ranks.concat(user);
-        console.log(this.ranks);
+        // console.log(this.ranks);
         const database = firebase.database();
         database.ref("user/").push({
+          difficulty: this.difficulty,
           nickname: nickname,
           time: this.time
         });
@@ -49,13 +53,16 @@ class App {
     });
 
     this.level = new Level({
-      onClick: (row, column, mine, flag) => {
+      onClick: (row, column, mine, flag, difficulty) => {
         const time = this.myTimer();
         const data = { row, column, mine, flag, time };
+        this.difficulty = difficulty;
         this.table.setState(data);
         this.count.setState(mine, flag);
       }
     });
+
+    this.loading = new Loading({});
 
     this.count = new Count({
       mine: 10,
@@ -63,9 +70,15 @@ class App {
       onLoadData: () => {
         const database = firebase.database();
         const data = database.ref("user/");
-        data.on("child_added", data => {
-          console.log(data.val());
+        const array = [];
+        this.loading.setState(true);
+        data.on("child_added", element => {
+          // console.log(element.val());
+          array.push(element.val());
         });
+        errorCheck.isData(array);
+        this.loading.setState(false);
+        return array;
       }
     });
 

@@ -65,29 +65,18 @@
         <div class="rank-modal">
             <button class="close-rankbtn">X</button>
             <header><img src="./image/trophy.jpg" alt="랭킹 제목 이미지" /></header>
+            <img class="loading" src="./image/loading.gif"></img>
             <div>
                 <img src="./image/easy.png" alt="쉬운 난이도" />
-                <div>
-                    <p>KSJKSJKSJK 10초</p>
-                    <p>KSJ 15초</p>
-                    <p>KSJ 20초</p>
-                </div>
+                <div id="easy-text"></div>
             </div>
             <div>
                 <img src="./image/medium.png" alt="중간 난이도" />
-                <div>
-                    <p>HSHHSHHSHH 10초</p>
-                    <p>HSH 15초</p>
-                    <p>HSH 20초</p>
-                </div>
+                <div id="mid-text"></div>
             </div>
             <div>
                 <img src="./image/hard.png" alt="하드 난이도" />
-                <div>
-                    <p>김김김김김김김김김김 10초</p>
-                    <p>KYJ 15초</p>
-                    <p>KYJ 20초</p>
-                </div>
+                <div id="hard-text"></div>
             </div>
         </div>
     </div>
@@ -146,8 +135,6 @@
         data.on('child_added', (data) => {
             // console.log(data.val());
         })
-        var filter = database.ref('user/').orderByChild('time');
-        console.log(filter);
     </script>
     <script type="module" src="js/main.js"></script>
 </body>

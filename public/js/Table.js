@@ -137,21 +137,21 @@ class Table {
 
       if (text === "") {
         this.$table.children[i].children[j].innerHTML = codeTable.flag;
-        this.data[i][j] = codeTable.flag;
-        this.flag -= 1;
+        if (this.data[i][j] === codeTable.blank) {
+          this.data[i][j] = codeTable.flag;
+          this.flag -= 1;
+        } else if (this.data[i][j] === codeTable.mine) {
+          this.flag -= 1;
+        }
       } else if (text === "1") {
-        if (this.data[i][j] === codeTable.flag) {
+        if (this.data[i][j] === codeTable.mine) {
+          this.$table.children[i].children[j].innerHTML = "";
+          this.flag += 1;
+        } else if (this.data[i][j] === codeTable.flag) {
           this.$table.children[i].children[j].innerHTML = "";
           this.data[i][j] = codeTable.blank;
           this.flag += 1;
-        } else if (this.data[i][j] === codeTable.mine) {
-          this.$table.children[i].children[j].innerHTML = "X";
-          this.data[i][j] = codeTable.mine;
-          this.flag += 1;
         }
-      } else if (text === "X") {
-        this.$table.children[i].children[j].innerHTML = codeTable.flag;
-        this.flag -= 1;
       }
     };
   }
@@ -206,7 +206,7 @@ class Table {
       const minecolumn = this.dataMine[i] % this.column;
 
       this.data[minerow][minecolumn] = codeTable.mine;
-      this.$table.children[minerow].children[minecolumn].innerHTML = "X";
+      // this.$table.children[minerow].children[minecolumn].innerHTML = "X";
     }
   }
 

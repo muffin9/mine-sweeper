@@ -1,6 +1,7 @@
 import { $ } from "./util.js";
 
 class Count {
+  data = [];
   constructor({ mine, flag, onLoadData }) {
     const $minecount = $("#mine-count");
     const $flagcount = $("#flag-count");
@@ -10,18 +11,30 @@ class Count {
     const $rankmodal = $(".rankmodal-wrapper");
     const $rankcancelBtn = $(".close-rankbtn");
 
+    const $easyText = $("#easy-text");
+    const $midText = $("#mid-text");
+    const $hardText = $("#hard-text");
+
     this.mine = mine;
     this.flag = flag;
+
+    this.onLoadData = onLoadData;
 
     this.$minecount = $minecount;
     this.$flagcount = $flagcount;
     this.$timecount = $timecount;
 
-    this.onLoadData = onLoadData;
+    this.$easyText = $easyText;
+    this.$midText = $midText;
+    this.$hardText = $hardText;
+
+    this.data = data;
 
     $rankcount.addEventListener("click", () => {
+      this.data = [];
       $rankmodal.style.display = "block";
-      this.onLoadData();
+      this.data = this.onLoadData();
+      this.rankrender();
     });
 
     $rankcancelBtn.addEventListener("click", () => {
@@ -42,6 +55,37 @@ class Count {
 
   timerender(time) {
     this.$timecount.textContent = time;
+  }
+
+  rankrender() {
+    const easy = this.data.filter(data => {
+      return data.difficulty === 0 ? data : "";
+    });
+    const mid = this.data.filter(data => {
+      return data.difficulty === 1 ? data : "";
+    });
+    const hard = this.data.filter(data => {
+      return data.difficulty === 2 ? data : "";
+    });
+    // console.log(easy, mid, hard);
+
+    this.$easyText.innerHTML = easy
+      .map(element => {
+        return `<p>${element.nickname} ${element.time}초</p>`;
+      })
+      .join("");
+
+    this.$midText.innerHTML = mid
+      .map(element => {
+        return `<p>${element.nickname} ${element.time}초</p>`;
+      })
+      .join("");
+
+    this.$hardText.innerHTML = hard
+      .map(element => {
+        return `<p>${element.nickname} ${element.time}초</p>`;
+      })
+      .join("");
   }
 }
 

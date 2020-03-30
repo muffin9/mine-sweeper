@@ -107,3 +107,26 @@
     border-radius: 4px;
     margin: auto;
 }
+
+.loading {
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%, -50%);
+}
+
+@media(max-width:768px) {
+    .modal {
+        width: 60%;
+        height: 60%;
+    }
+}
+
+@media(max-width:576px) {
+    .modal {
+        width: 80%;
+        height: 80%;
+    }
+}

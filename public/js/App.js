@@ -1,4 +1,5 @@
-import Modal from "./Modal.js";
+import StartModal from "./StartModal.js";
+import RankModal from "./RankModal.js";
 import Table from "./Table.js";
 import Level from "./Level.js";
 import Count from "./Count.js";
@@ -19,7 +20,7 @@ class App {
       }, 1000));
     })();
 
-    this.modal = new Modal();
+    this.startmodal = new StartModal();
     this.table = new Table({
       row: 9,
       column: 9,

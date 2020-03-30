@@ -1,24 +1,24 @@
 import { $ } from "./util.js";
 
-class Modal {
+class StartModal {
   constructor() {
-    const $modal = $(".modal-wrapper");
+    const $startmodal = $(".modal-wrapper");
     const $closeBtn = $(".close-btn");
     const $okBtn = $(".ok-btn");
     const $cancelBtn = $(".cancel-btn");
 
     $closeBtn.addEventListener("click", () => {
-      $modal.style.display = "none";
+      $startmodal.style.display = "none";
     });
 
     $cancelBtn.addEventListener("click", () => {
-      $modal.style.display = "none";
+      $startmodal.style.display = "none";
     });
 
     $okBtn.addEventListener("click", () => {
-      $modal.style.display = "none";
+      $startmodal.style.display = "none";
     });
   }
 }
 
-export default Modal;
+export default StartModal;

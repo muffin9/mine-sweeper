@@ -2,65 +2,123 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <title>Minesweeper</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <title>Minesweeper</title>
 </head>
 
 <body>
-  <div id="App">
-    <div class="new-btn">
-      <img class="new-img" src="./image/new.png" alt="새 게임 버튼" /><span>New Game</span>
+    <div id="App">
+        <div class="new-btn">
+            <img class="new-img" src="./image/new.png" alt="새 게임 버튼" /><span>New Game</span>
+        </div>
+        <div class="content-wrapper">
+            <div class="content-left">
+                <div id="easy">
+                    <img src="./image/easy.png" alt="쉬운 난이도" /><span>Easy</span>
+                </div>
+                <div id="medium">
+                    <img src="./image/medium.png" alt="중간 난이도" /><span>Medium</span>
+                </div>
+                <div id="hard">
+                    <img src="./image/hard.png" alt="하드 난이도" /><span>Hard</span>
+                </div>
+            </div>
+            <div class="content-center">
+                <table id="table"></table>
+            </div>
+            <div class="content-right">
+                <div>
+                    <img src="./image/mine.png" alt="지뢰 개수" /><span id="mine-count">10</span>
+                </div>
+                <div>
+                    <img src="./image/flag.png" alt="깃발 개수" /><span id="flag-count">10</span>
+                </div>
+                <div>
+                    <img src="./image/watch.png" alt="초과 시간" /><span id="time-count">0</span>
+                </div>
+                <div id="rank-count">
+                    <img src="./image/Rank.jpg" alt="랭킹" /><span>RANK</span>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="content-wrapper">
-      <div class="content-left">
-        <div id="easy">
-          <img src="./image/easy.png" alt="쉬운 난이도" /><span>Easy</span>
+    <div class="modal-wrapper">
+        <div class="modal">
+            <button class="close-btn">X</button>
+            <header>지뢰가 없는 모든 칸을 찾아내 주세요.</header>
+            <p>
+                마우스 왼쪽 버튼 클릭 : 한 칸 열기 <br />
+                오른쪽 버튼 1번 클릭 : 지뢰 위치 확정(깃발 꽂기) <br />
+                오른쪽 버튼 2번 클릭 : 임시 표시(물음표) <br />
+                왼쪽+오른쪽 버튼 클릭 : 그 칸에서 인접한 8칸을 전부 열기
+            </p>
+            <div class="modal-btn-wrapper">
+                <button class="ok-btn">확인</button>
+                <button class="cancel-btn">취소</button>
+            </div>
         </div>
-        <div id="medium">
-          <img src="./image/medium.png" alt="중간 난이도" /><span>Medium</span>
-        </div>
-        <div id="hard">
-          <img src="./image/hard.png" alt="하드 난이도" /><span>Hard</span>
-        </div>
-      </div>
-      <div class="content-center">
-        <table id="table"></table>
-      </div>
-      <div class="content-right">
-        <div>
-          <img src="./image/mine.png" alt="지뢰 개수" /><span id="mine-count">10</span>
-        </div>
-        <div>
-          <img src="./image/flag.png" alt="깃발 개수" /><span id="flag-count">10</span>
-        </div>
-        <div>
-          <img src="./image/watch.png" alt="초과 시간" /><span id="time-count">0</span>
-        </div>
-        <div id="rank-count">
-          <img src="./image/Rank.jpg" alt="랭킹" /><span>RANK</span>
-        </div>
-      </div>
     </div>
-  </div>
-  <div class="modal-wrapper">
-    <div class="modal">
-      <button class="close-btn">X</button>
-      <header>지뢰가 없는 모든 칸을 찾아내 주세요.</header>
-      <p>
-        마우스 왼쪽 버튼 클릭 : 한 칸 열기 <br />
-        오른쪽 버튼 1번 클릭 : 지뢰 위치 확정(깃발 꽂기) <br />
-        오른쪽 버튼 2번 클릭 : 임시 표시(물음표) <br />
-        왼쪽+오른쪽 버튼 클릭 : 그 칸에서 인접한 8칸을 전부 열기
-      </p>
-      <div class="modal-btn-wrapper">
-        <button class="ok-btn">확인</button>
-        <button class="cancel-btn">취소</button>
-      </div>
-    </div>
-  </div>
-  <script type="module" src="js/main.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyD-f0XZnOzGxa9hIKucypWz-Y5KHDja8xY",
+            authDomain: "mine-90257.firebaseapp.com",
+            databaseURL: "https://mine-90257.firebaseio.com",
+            projectId: "mine-90257",
+            storageBucket: "mine-90257.appspot.com",
+            messagingSenderId: "232782080540",
+            appId: "1:232782080540:web:252628735fa8b326498dd9"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        //구글 인증 기능 추가
+        var provider = new firebase.auth.GoogleAuthProvider();
+
+        // 인증하기
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+
+            console.log(user) // 인증 후 어떤 데이터를 받아오는지 확인해보기 위함.
+            // ...
+        }).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+        });
+
+        var database = firebase.database();
+        // database.ref('user/').push({
+        //     "nickname": "KSJ",
+        //     "time": 15
+        // })
+
+        var data = database.ref('user/')
+        data.on('child_added', (data) => {
+            // console.log(data.val());
+        })
+        var filter = database.ref('user/').orderByChild('time');
+        console.log(filter);
+    </script>
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>

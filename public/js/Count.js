@@ -67,21 +67,29 @@ class Count {
     const hard = this.data.filter(data => {
       return data.difficulty === 2 ? data : "";
     });
-    // console.log(easy, mid, hard);
+    const easyRank = easy.sort((a, b) => {
+      return a.time - b.time;
+    });
+    const midRank = mid.sort((a, b) => {
+      return a.time - b.time;
+    });
+    const hardRank = hard.sort((a, b) => {
+      return a.time - b.time;
+    });
 
-    this.$easyText.innerHTML = easy
+    this.$easyText.innerHTML = easyRank
       .map(element => {
         return `<p>${element.nickname} ${element.time}초</p>`;
       })
       .join("");
 
-    this.$midText.innerHTML = mid
+    this.$midText.innerHTML = midRank
       .map(element => {
         return `<p>${element.nickname} ${element.time}초</p>`;
       })
       .join("");
 
-    this.$hardText.innerHTML = hard
+    this.$hardText.innerHTML = hardRank
       .map(element => {
         return `<p>${element.nickname} ${element.time}초</p>`;
       })

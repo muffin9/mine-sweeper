@@ -39,7 +39,11 @@ class Table {
 
     this.onLeftClick = (e, i, j) => {
       if (this.life || this.clear) return;
-      else if (this.data[i][j] === codeTable.open) return;
+      else if (
+        this.data[i][j] === codeTable.open ||
+        this.data[i][j] === codeTable.flag
+      )
+        return;
       e.target.classList.add("opened");
       this.open += 1;
 
@@ -129,6 +133,7 @@ class Table {
     this.onRightClick = (e, i, j) => {
       if (this.life) return;
       const text = this.$table.children[i].children[j].innerHTML;
+      const imgFlag = `<img src="image/flag.png">`;
 
       if (text === "" && this.flag === 0) {
         alert("깃발을 전부 사용하셨습니다.");
@@ -136,14 +141,14 @@ class Table {
       }
 
       if (text === "") {
-        this.$table.children[i].children[j].innerHTML = codeTable.flag;
+        this.$table.children[i].children[j].innerHTML = imgFlag;
         if (this.data[i][j] === codeTable.blank) {
           this.data[i][j] = codeTable.flag;
           this.flag -= 1;
         } else if (this.data[i][j] === codeTable.mine) {
           this.flag -= 1;
         }
-      } else if (text === "1") {
+      } else if (text === imgFlag) {
         if (this.data[i][j] === codeTable.mine) {
           this.$table.children[i].children[j].innerHTML = "";
           this.flag += 1;

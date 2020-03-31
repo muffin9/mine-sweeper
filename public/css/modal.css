@@ -31,6 +31,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    box-shadow: 5px 2px 5px 2px gray;
 }
 
 .rank-modal {
@@ -45,6 +46,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    box-shadow: 5px 2px 5px 2px gray;
 }
 
 .rank-modal div {
@@ -100,6 +102,10 @@
     margin: 20px;
 }
 
+.modal-btn-wrapper button:hover {
+    background-color: skyblue;
+}
+
 .rank-modal img {
     display: block;
     width: 75px;
@@ -117,16 +123,25 @@
     transform: translate(-50%, -50%);
 }
 
+@media(max-width:992px) {
+    .rank-modal {
+        width: 70%;
+    }
+}
+
 @media(max-width:768px) {
-    .modal {
-        width: 60%;
-        height: 60%;
+
+    .modal,
+    .rank-modal {
+        width: 80%;
     }
 }
 
 @media(max-width:576px) {
-    .modal {
-        width: 80%;
+
+    .modal,
+    .rank-modal {
+        width: 90%;
         height: 80%;
     }
 }

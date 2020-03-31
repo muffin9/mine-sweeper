@@ -12,6 +12,12 @@ td {
     cursor: pointer;
 }
 
+td img {
+    vertical-align: top;
+    width: 30px;
+    height: 30px;
+}
+
 td:hover {
     background-color: #b77ef7;
 }
@@ -25,12 +31,22 @@ td:hover {
         width: 20px;
         height: 20px;
     }
+
+    td img {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 @media(max-width:768px) {}
 
 @media(max-width:576px) {
     td {
+        width: 10px;
+        height: 10px;
+    }
+
+    td img {
         width: 10px;
         height: 10px;
     }

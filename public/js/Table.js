@@ -34,6 +34,9 @@ class Table {
     this.nickname = nickname;
 
     $newBtn.addEventListener("click", () => {
+      if (this.mine === 10) this.flag = 10;
+      else if (this.mine === 40) this.flag = 40;
+      else if (this.mine === 99) this.flag = 99;
       this.onNewClick(this.row, this.column, this.mine, this.flag);
     });
 
@@ -164,6 +167,7 @@ class Table {
 
   setState(data) {
     const { row, column, mine, flag, time } = data;
+    console.log(flag);
     this.row = row;
     this.column = column;
     this.mine = mine;

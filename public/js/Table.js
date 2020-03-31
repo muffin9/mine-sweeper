@@ -131,6 +131,7 @@ class Table {
     };
 
     this.onRightClick = (e, i, j) => {
+      e.preventDefault();
       if (this.life) return;
       const text = this.$table.children[i].children[j].innerHTML;
       const imgFlag = `<img src="image/flag.png">`;
@@ -213,6 +214,7 @@ class Table {
       this.data[minerow][minecolumn] = codeTable.mine;
       // this.$table.children[minerow].children[minecolumn].innerHTML = "X";
     }
+    console.log(this.data);
   }
 
   render() {
